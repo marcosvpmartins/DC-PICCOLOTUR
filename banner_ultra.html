@@ -1,0 +1,601 @@
+
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&family=JetBrains+Mono:wght@300;500&display=swap');
+            
+            @page {
+                size: 2000px 3500px;
+                margin: 0;
+            }
+            
+            :root {
+                --bg-color: #020617;
+                --accent-primary: #00f2ff;
+                --accent-secondary: #7000ff;
+                --text-main: #e2e8f0;
+                --text-dim: #94a3b8;
+                --card-bg: rgba(15, 23, 42, 0.6);
+                --glow: 0 0 20px rgba(0, 242, 255, 0.3);
+            }
+            
+            body {
+                background-color: var(--bg-color);
+                background-image: 
+                    radial-gradient(circle at 20% 20%, rgba(112, 0, 255, 0.15) 0%, transparent 40%),
+                    radial-gradient(circle at 80% 80%, rgba(0, 242, 255, 0.15) 0%, transparent 40%),
+                    linear-gradient(rgba(15, 23, 42, 0.5) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(15, 23, 42, 0.5) 1px, transparent 1px);
+                background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
+                color: var(--text-main);
+                font-family: 'Exo 2', sans-serif;
+                margin: 0;
+                padding: 100px;
+                width: 1800px;
+                min-height: 100vh;
+            }
+            
+            .main-container {
+                position: relative;
+                z-index: 1;
+            }
+            
+            .cyber-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                margin-bottom: 100px;
+                border-left: 8px solid var(--accent-primary);
+                padding-left: 40px;
+                position: relative;
+            }
+            
+            .cyber-header::after {
+                content: '';
+                position: absolute;
+                bottom: -20px;
+                left: 0;
+                width: 400px;
+                height: 2px;
+                background: linear-gradient(90deg, var(--accent-primary), transparent);
+            }
+            
+            .title-section h1 {
+                font-size: 5rem;
+                font-weight: 700;
+                margin: 0;
+                text-transform: uppercase;
+                letter-spacing: 8px;
+                background: linear-gradient(to right, #fff, var(--accent-primary));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow: var(--glow);
+            }
+            
+            .title-section p {
+                font-size: 1.8rem;
+                color: var(--text-dim);
+                margin: 10px 0 0;
+                letter-spacing: 4px;
+                text-transform: uppercase;
+            }
+            
+            .logo-frame {
+                background: rgba(255, 255, 255, 0.05);
+                padding: 25px 40px;
+                border-radius: 4px;
+                border-right: 4px solid var(--accent-secondary);
+                backdrop-filter: blur(15px);
+                box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            }
+            
+            .logo-frame img {
+                height: 80px;
+                filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+            }
+            
+            .data-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 50px;
+            }
+            
+            .server-node {
+                background: var(--card-bg);
+                border: 1px solid rgba(0, 242, 255, 0.1);
+                border-radius: 2px;
+                padding: 40px;
+                position: relative;
+                overflow: hidden;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+                break-inside: avoid;
+            }
+            
+            .server-node::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            }
+            
+            .node-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 30px;
+            }
+            
+            .node-id {
+                font-family: 'JetBrains Mono', monospace;
+                color: var(--accent-primary);
+                font-size: 0.9rem;
+                font-weight: 500;
+                background: rgba(0, 242, 255, 0.1);
+                padding: 4px 12px;
+                border-radius: 4px;
+            }
+            
+            .node-status {
+                width: 12px;
+                height: 12px;
+                background: var(--accent-primary);
+                border-radius: 50%;
+                box-shadow: 0 0 15px var(--accent-primary);
+            }
+            
+            .node-name {
+                font-size: 2.2rem;
+                font-weight: 700;
+                margin: 15px 0 5px;
+                color: #fff;
+            }
+            
+            .node-ip {
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 1.2rem;
+                color: var(--text-dim);
+            }
+            
+            .node-desc {
+                font-size: 1.1rem;
+                line-height: 1.6;
+                color: var(--text-dim);
+                margin: 25px 0;
+                padding-left: 15px;
+                border-left: 2px solid rgba(255,255,255,0.1);
+            }
+            
+            .vm-cluster {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                margin-top: 30px;
+            }
+            
+            .vm-core {
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                padding: 20px;
+                position: relative;
+            }
+            
+            .vm-core::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 4px;
+                background: var(--accent-secondary);
+            }
+            
+            .vm-meta {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+            }
+            
+            .vm-title {
+                font-weight: 600;
+                font-size: 1.2rem;
+                color: var(--accent-primary);
+            }
+            
+            .vm-addr {
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 0.9rem;
+                color: var(--text-dim);
+            }
+            
+            .vm-os {
+                font-size: 0.9rem;
+                color: var(--text-dim);
+                margin-bottom: 15px;
+            }
+            
+            .vm-tag-box {
+                display: inline-block;
+                padding: 6px 15px;
+                background: linear-gradient(45deg, rgba(112, 0, 255, 0.2), transparent);
+                border: 1px solid rgba(112, 0, 255, 0.3);
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: #c084fc;
+                border-radius: 4px;
+            }
+            
+            .dedicated-stamp {
+                margin-top: auto;
+                font-size: 0.9rem;
+                color: var(--accent-primary);
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .dedicated-stamp::before {
+                content: 'CORE';
+                font-size: 0.6rem;
+                border: 1px solid var(--accent-primary);
+                padding: 2px 5px;
+            }
+            
+            .cyber-footer {
+                margin-top: 150px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-top: 1px solid rgba(255,255,255,0.05);
+                padding-top: 40px;
+                color: var(--text-dim);
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 1rem;
+            }
+            
+            .footer-line {
+                height: 1px;
+                flex-grow: 1;
+                margin: 0 40px;
+                background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.2), transparent);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main-container">
+            <header class="cyber-header">
+                <div class="title-section">
+                    <h1>System Core</h1>
+                    <p>Infrastructure Architecture // Piccolotur</p>
+                </div>
+                <div class="logo-frame">
+                    <img src="data:image/jpeg;base64,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" alt="Piccolotur">
+                </div>
+            </header>
+            
+            <main class="data-grid">
+    
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 01</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">DC-SYSTEM01</div>
+                    <div class="node-ip">10.0.1.15</div>
+                    <div class="node-desc">Veltec - Aplicação / Banco SQL, PowerBI - Pentaho / Banco SQL</div>
+        <div class="dedicated-stamp">Bare Metal / Dedicated</div></div>
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 02</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">DC-ERP-BD01</div>
+                    <div class="node-ip">10.0.1.36</div>
+                    <div class="node-desc">Globus, Banco ORACLE</div>
+        <div class="dedicated-stamp">Bare Metal / Dedicated</div></div>
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 03</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">DC-VM-MOB</div>
+                    <div class="node-ip">10.0.1.13</div>
+                    <div class="node-desc">Xen</div>
+        <div class="vm-cluster">
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">MOBILE</span>
+                                <span class="vm-addr">10.0.1.52</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 15 SP5</div>
+                            <div class="vm-tag-box">Groupwise - Mobile</div>
+                        </div>
+                
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">DC-GW05</span>
+                                <span class="vm-addr">10.0.1.103</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 15 SP5</div>
+                            <div class="vm-tag-box">Groupwise PO/MTA/GWIA - @techbus.app.br</div>
+                        </div>
+                </div></div>
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 04</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">KVM15</div>
+                    <div class="node-ip">10.0.1.21</div>
+                    <div class="node-desc">Xen</div>
+        <div class="vm-cluster">
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">Aplicação GLB</span>
+                                <span class="vm-addr">10.0.1.16</span>
+                            </div>
+                            <div class="vm-os">Windows server 2022</div>
+                            <div class="vm-tag-box">Aplicação + GoGlobol</div>
+                        </div>
+                
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">SMG02</span>
+                                <span class="vm-addr">10.0.1.82</span>
+                            </div>
+                            <div class="vm-os">Appliance SMG</div>
+                            <div class="vm-tag-box">SMG - AV / ANTISPAM / ENV/RECEB E-mails externos</div>
+                        </div>
+                </div></div>
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 05</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">DC-FW01</div>
+                    <div class="node-ip">10.0.0.254</div>
+                    <div class="node-desc">Firewall, DHCP, Proxy, VPN</div>
+        <div class="dedicated-stamp">Bare Metal / Dedicated</div></div>
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 06</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">DC-VM03</div>
+                    <div class="node-ip">10.0.1.30</div>
+                    <div class="node-desc">KVM</div>
+        <div class="vm-cluster">
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">DC-FW02</span>
+                                <span class="vm-addr">10.0.0.250 / 177.69.147.11</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 12 SP5</div>
+                            <div class="vm-tag-box">Firewall - E-mails</div>
+                        </div>
+                
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">DC-WIN01</span>
+                                <span class="vm-addr">10.0.1.31</span>
+                            </div>
+                            <div class="vm-os">Windows 10 Professional</div>
+                            <div class="vm-tag-box">Kaspersky - Admin</div>
+                        </div>
+                </div></div>
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 07</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">DC-VM04</div>
+                    <div class="node-ip">10.0.1.60</div>
+                    <div class="node-desc">KVM</div>
+        <div class="vm-cluster">
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">DC-FS02</span>
+                                <span class="vm-addr">10.0.1.2</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 11 SP3</div>
+                            <div class="vm-tag-box">samba</div>
+                        </div>
+                
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">WIND10</span>
+                                <span class="vm-addr">10.0.1.62</span>
+                            </div>
+                            <div class="vm-os">Windows 10 Professional</div>
+                            <div class="vm-tag-box">Powerbi - Gateway Piccolotur</div>
+                        </div>
+                </div></div>
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 08</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">DC-VM09</div>
+                    <div class="node-ip">10.0.1.100</div>
+                    <div class="node-desc">KVM</div>
+        <div class="vm-cluster">
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">win2k12r2</span>
+                                <span class="vm-addr">10.0.1.26</span>
+                            </div>
+                            <div class="vm-os">Windows 2012 R2 Standard</div>
+                            <div class="vm-tag-box">Globus - Iis</div>
+                        </div>
+                
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">smg-techbus</span>
+                                <span class="vm-addr">10.0.1.104</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 15 SP3</div>
+                            <div class="vm-tag-box">SMG - techbus.app.br</div>
+                        </div>
+                
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">dc-iprint01</span>
+                                <span class="vm-addr">10.0.1.102</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 12 SP5</div>
+                            <div class="vm-tag-box">iPrint Matriz</div>
+                        </div>
+                </div></div>
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 09</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">DC-VM10</div>
+                    <div class="node-ip">10.0.1.110</div>
+                    <div class="node-desc">KVM</div>
+        <div class="vm-cluster">
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">dc-retain01</span>
+                                <span class="vm-addr">10.0.1.91</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 15</div>
+                            <div class="vm-tag-box">Retain Server</div>
+                        </div>
+                </div></div>
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 010</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">DC-VM12</div>
+                    <div class="node-ip">10.0.1.130</div>
+                    <div class="node-desc">KVM</div>
+        <div class="vm-cluster">
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">DC-FS03</span>
+                                <span class="vm-addr">10.0.1.131</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 15</div>
+                            <div class="vm-tag-box">File Server - Matriz novo</div>
+                        </div>
+                
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">DC-FILR02</span>
+                                <span class="vm-addr">10.0.1.132</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 15</div>
+                            <div class="vm-tag-box">Filr</div>
+                        </div>
+                </div></div>
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 011</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">DC-VM13</div>
+                    <div class="node-ip">10.0.1.140</div>
+                    <div class="node-desc">KVM</div>
+        <div class="vm-cluster">
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">bkp</span>
+                                <span class="vm-addr">10.0.1.149</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 15 SP7</div>
+                            <div class="vm-tag-box">SEP - Bkp</div>
+                        </div>
+                </div></div>
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 012</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">DC-KVM15</div>
+                    <div class="node-ip">10.0.1.150</div>
+                    <div class="node-desc">KVM</div>
+        <div class="vm-cluster">
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">DC-GW01</span>
+                                <span class="vm-addr">10.0.1.71</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 15 SP7</div>
+                            <div class="vm-tag-box">Groupwise PO/MTA/GWIA - @taipastur.com.br</div>
+                        </div>
+                
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">DC-GW03</span>
+                                <span class="vm-addr">10.0.1.73</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 15 SP7</div>
+                            <div class="vm-tag-box">Groupwise PO/MTA/GWIA - @visatur.com.br</div>
+                        </div>
+                </div></div>
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 013</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">DC-KVM16</div>
+                    <div class="node-ip">10.0.1.160</div>
+                    <div class="node-desc">KVM</div>
+        <div class="vm-cluster">
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">DC-GW02</span>
+                                <span class="vm-addr">10.0.1.72</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 15 SP7</div>
+                            <div class="vm-tag-box">Groupwise PO/MTA/GWIA - @piccolotur.com.br</div>
+                        </div>
+                
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">DC-GW04</span>
+                                <span class="vm-addr">10.0.1.81</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 15 SP7</div>
+                            <div class="vm-tag-box">Groupwise PO/MTA/GWIA - @tptransportes / tplocacao / alitur.combr</div>
+                        </div>
+                
+                        <div class="vm-core">
+                            <div class="vm-meta">
+                                <span class="vm-title">GWEB</span>
+                                <span class="vm-addr">10.0.1.52</span>
+                            </div>
+                            <div class="vm-os">Suse Linux Enterprise Server - 15 SP7</div>
+                            <div class="vm-tag-box">Groupwise Web</div>
+                        </div>
+                </div></div>
+                <div class="server-node">
+                    <div class="node-header">
+                        <span class="node-id">HOST_ID: 014</span>
+                        <div class="node-status"></div>
+                    </div>
+                    <div class="node-name">Host 170</div>
+                    <div class="node-ip">10.0.1.170</div>
+                    <div class="node-desc">KVM</div>
+        <div class="dedicated-stamp">Bare Metal / Dedicated</div></div>
+            </main>
+            
+            <footer class="cyber-footer">
+                <div>SYSTEM_STATUS: OPERATIONAL</div>
+                <div class="footer-line"></div>
+                <div>PICCOLOTUR_DC_MAP_2024 // v4.0.0_ULTRA</div>
+            </footer>
+        </div>
+    </body>
+    </html>
+    
